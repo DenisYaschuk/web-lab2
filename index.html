@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lab2</title>
+</head>
+<style>
+    .form-container{
+        display: flex;
+        gap: 1rem;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+    input[type="submit"]{
+        margin-top: 1rem;
+        max-width: 11rem;
+    }
+    table {
+        border-collapse: collapse;
+    }
+    table tr td {
+        background-color: rgb(255, 255, 255);
+        text-align: center;
+        padding: 10px;
+        border: 1px black solid;
+    }
+    input[type="color"] {
+        margin-bottom: 1rem;
+        width: 11rem;
+    }
+    .error {
+        box-shadow: 0 0 10px #c40c36;
+        border-color: #c40c36;
+    }
+</style>
+<body>
+    <div class="form-container">
+        <form id="form">
+            <label for="name">
+                Name<br>
+                <input type="text" name="name" id="name">
+            </label>
+            <label for="group">
+                Group<br>
+                <input type="text" name="group" id="group">
+            </label>
+            <label for="faculty">
+                Faculty<br>
+                <input type="text" name="faculty" id="faculty">
+            </label>
+            <label for="address">
+                Address<br>
+                <input type="text" name="address" id="address">
+            </label>
+            <label for="telegram">
+                Telegram<br>
+                <input type="text" name="telegram" id="telegram">
+            </label>
+            <input type="submit">
+        </form>
+        <div id="result">
+
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <input type="color" name="color" id="color">
+    <table>
+        <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+            <td>5</td>
+            <td>6</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>8</td>
+            <td>9</td>
+            <td>10</td>
+            <td>11</td>
+            <td>12</td>
+        </tr>
+        <tr>
+            <td>13</td>
+            <td>14</td>
+            <td>15</td>
+            <td>16</td>
+            <td>17</td>
+            <td>18</td>
+        </tr>
+        <tr>
+            <td>19</td>
+            <td>20</td>
+            <td>21</td>
+            <td>22</td>
+            <td>23</td>
+            <td>24</td>
+        </tr>
+        <tr>
+            <td>25</td>
+            <td>26</td>
+            <td>27</td>
+            <td>28</td>
+            <td>29</td>
+            <td>30</td>
+        </tr>
+        <tr>
+            <td>31</td>
+            <td>32</td>
+            <td>33</td>
+            <td>34</td>
+            <td>35</td>
+            <td>36</td>
+        </tr>
+    </table>
+</body>
+<script>
+    let form = document.getElementById('form');
+    let nameRegex = new RegExp('^[A-Z]([a-z]*) [A-Z]\. [A-Z]\.$');
+    let groupRegex = new RegExp('^[A-Z]{2}\-[0-9]{2}$');
+    let facultyRegex = new RegExp('^[A-Z]{4}$');
+    let addressRegex = new RegExp('^c\. [A-Z][a-z]*$');
+    let telegramRegex = new RegExp('^\@[a-zA-Z_]*$');
+
+    let name = document.getElementById('name');
+    let group = document.getElementById('group');
+    let faculty = document.getElementById('faculty');
+    let address = document.getElementById('address');
+    let telegram = document.getElementById('telegram');
+
+    let resultDiv = document.getElementById('result');
+
+    form.addEventListener('submit', function (event){
+        event.preventDefault();
+
+        name.classList.remove('error');
+        group.classList.remove('error');
+        faculty.classList.remove('error');
+        address.classList.remove('error');
+        telegram.classList.remove('error');
+        resultDiv.innerHTML = '';
+
+        let isSuccess = true;
+
+        if(!nameRegex.test(name.value)){
+            name.classList.add('error');
+            isSuccess = false;
+        }
+        if(!groupRegex.test(group.value)){
+            group.classList.add('error');
+            isSuccess = false;
+        }
+        if(!facultyRegex.test(faculty.value)){
+            faculty.classList.add('error');
+            isSuccess = false;
+        }
+        if(!addressRegex.test(address.value)){
+            address.classList.add('error');
+            isSuccess = false;
+        }
+        if(!telegramRegex.test(telegram.value)){
+            telegram.classList.add('error');
+            isSuccess = false;
+        }
+        if(isSuccess){
+            resultDiv.innerHTML = '<p>Name: ' + name.value + '</p>' +
+                '<p>Group: ' + group.value + '</p>' +
+                '<p>Faculty: ' + faculty.value + '</p>' +
+                '<p>Address: ' + address.value + '</p>' +
+                '<p>Telegram: ' + telegram.value + '</p>';
+        }
+    });
+
+
+    let tableCells = document.querySelectorAll('table td');
+    let color = document.getElementById('color');
+    let lastColor = '';
+
+    tableCells.forEach(e => e.addEventListener('click', function(event) {
+        if(event.detail > 1){
+            tableCells.forEach(cell => {
+                if(!(cell.innerHTML == event.target.innerHTML)){
+                    cell.style.backgroundColor = color.value;
+                }
+                else{
+                    cell.style.backgroundColor = lastColor;
+                }
+            });
+        }
+        else{
+            lastColor = e.style.backgroundColor;
+            e.style.backgroundColor = color.value;
+        }
+    }));
+
+</script>
+</html>
